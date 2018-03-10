@@ -5,6 +5,8 @@
 
 A zone program inspired from the old DOS game
 
+![Demo](images/demo.gif)
+
 ## Installation
 
 ### Manual
