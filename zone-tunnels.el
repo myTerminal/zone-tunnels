@@ -124,7 +124,7 @@
                                   aspect-ratio)))
                 (setq height (- height
                                 10))))
-        (sit-for 0.02)
+        (sit-for 0.1)
         (erase-buffer)
         (setq render-index
               (+ render-index
