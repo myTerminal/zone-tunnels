@@ -3,7 +3,7 @@
 [![Marmalade](https://img.shields.io/badge/marmalade-available-8A2A8B.svg)](https://marmalade-repo.org/packages/zone-tunnels)  
 [![License](https://img.shields.io/badge/LICENSE-GPL%20v3.0-blue.svg)](https://www.gnu.org/licenses/gpl.html)
 
-A zone program inspired from the old DOS game
+A zone program inspired by the old DOS game
 
 ![Demo](images/demo.gif)
 

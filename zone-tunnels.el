@@ -49,7 +49,7 @@
 
 ;;; Commentary:
 
-;;     A zone program inspired from the old DOS game
+;;     A zone program inspired by the old DOS game
 ;;
 ;;  Overview of features:
 ;;
