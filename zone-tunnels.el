@@ -101,10 +101,9 @@
       (let ((canvas-width (window-width))
              (canvas-height (1- (window-height))))
         (dotimes (number canvas-height)
-          (insert (concatenate 'string
-                               (make-string canvas-width
-                                            ? )
-                               "\n")))
+          (insert (concat (make-string canvas-width
+                                       ? )
+                          "\n")))
         (let ((width (- canvas-width
                         (* (% render-index
                               10)
