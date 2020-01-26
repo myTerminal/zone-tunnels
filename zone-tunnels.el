@@ -60,11 +60,11 @@
 
 (defun zone-tunnels--draw-rect (canvas-width canvas-height rect-width rect-height)
   (let ((start-x (/ (- canvas-width
-                        rect-width)
-                     2))
-         (start-y (/ (- canvas-height
-                        rect-height)
-                     2)))
+                       rect-width)
+                    2))
+        (start-y (/ (- canvas-height
+                       rect-height)
+                    2)))
 
     (beginning-of-buffer)
     (forward-line start-y)
@@ -96,10 +96,10 @@
   (zone-fill-out-screen (window-width) (window-height))
   (setq cursor-type nil)
   (let ((render-index 10)
-         (aspect-ratio 2))
+        (aspect-ratio 2))
     (while (not (input-pending-p))
       (let ((canvas-width (window-width))
-             (canvas-height (1- (window-height))))
+            (canvas-height (1- (window-height))))
         (dotimes (number canvas-height)
           (insert (concat (make-string canvas-width
                                        ? )
