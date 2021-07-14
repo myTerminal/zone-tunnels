@@ -7,7 +7,7 @@
 ;; Keywords: games
 ;; Maintainer: Mohammed Ismail Ansari <team.terminal@gmail.com>
 ;; Created: 2018/03/08
-;; Package-Requires: ((emacs "24"))
+;; Package-Requires: ((emacs "24") (cl-lib "0.5"))
 ;; Description: A zone program inspired from the old DOS game
 ;; URL: http://ismail.teamfluxion.com
 ;; Compatibility: Emacs24
@@ -58,77 +58,78 @@
 
 ;;; Code:
 
-(defun zone-tunnels--draw-rect (canvas-width canvas-height rect-width rect-height)
-  (let ((start-x (/ (- canvas-width
-                       rect-width)
-                    2))
-        (start-y (/ (- canvas-height
-                       rect-height)
-                    2)))
-
-    (beginning-of-buffer)
-    (forward-line start-y)
-    (forward-char start-x)
-    (delete-char rect-width)
-    (insert (make-string rect-width ?*))
-    (dotimes (index (- rect-height
-                       2))
-      (forward-line 1)
-      (move-beginning-of-line nil)
-      (forward-char start-x)
-      (delete-char 1)
-      (insert "*")
-      (backward-char 1)
-      (forward-char (1- rect-width))
-      (delete-char 1)
-      (insert "*"))
-    (forward-line 1)
-    (move-beginning-of-line nil)
-    (forward-char start-x)
-    (delete-char rect-width)
-    (insert (make-string rect-width ?*))))
+(require 'cl-lib)
 
 ;;;###autoload
 (defun zone-pgm-tunnels ()
   "Zone out with tunnels."
-  (delete-other-windows)
-  (erase-buffer)
-  (zone-fill-out-screen (window-width) (window-height))
-  (setq cursor-type nil)
-  (let ((render-index 10)
-        (aspect-ratio 2))
-    (while (not (input-pending-p))
-      (let ((canvas-width (window-width))
-            (canvas-height (1- (window-height))))
-        (dotimes (number canvas-height)
-          (insert (concat (make-string canvas-width
-                                       ? )
-                          "\n")))
-        (let ((width (- canvas-width
-                        (* (% render-index
-                              10)
-                           aspect-ratio)))
-              (height (- canvas-height
-                         (% render-index
-                            10))))
-          (loop while
-                (and (> width 3)
-                     (> height 3))
-                do
-                (zone-tunnels--draw-rect canvas-width
-                                         canvas-height
-                                         width
-                                         height)
-                (setq width (- width
-                               (* 10
-                                  aspect-ratio)))
-                (setq height (- height
-                                10))))
-        (sit-for 0.1)
-        (erase-buffer)
-        (setq render-index
-              (+ render-index
-                 8))))))
+  (cl-flet* ((draw-rect (canvas-width canvas-height rect-width rect-height)
+                        (let ((start-x (/ (- canvas-width
+                                             rect-width)
+                                          2))
+                              (start-y (/ (- canvas-height
+                                             rect-height)
+                                          2)))
+
+                          (beginning-of-buffer)
+                          (forward-line start-y)
+                          (forward-char start-x)
+                          (delete-char rect-width)
+                          (insert (make-string rect-width ?*))
+                          (dotimes (index (- rect-height
+                                             2))
+                            (forward-line 1)
+                            (move-beginning-of-line nil)
+                            (forward-char start-x)
+                            (delete-char 1)
+                            (insert "*")
+                            (backward-char 1)
+                            (forward-char (1- rect-width))
+                            (delete-char 1)
+                            (insert "*"))
+                          (forward-line 1)
+                          (move-beginning-of-line nil)
+                          (forward-char start-x)
+                          (delete-char rect-width)
+                          (insert (make-string rect-width ?*)))))
+    (delete-other-windows)
+    (erase-buffer)
+    (zone-fill-out-screen (window-width) (window-height))
+    (setq cursor-type nil)
+    (let ((render-index 10)
+          (aspect-ratio 2))
+      (while (not (input-pending-p))
+        (let ((canvas-width (window-width))
+              (canvas-height (1- (window-height))))
+          (dotimes (number canvas-height)
+            (insert (concat (make-string canvas-width
+                                         ? )
+                            "\n")))
+          (let ((width (- canvas-width
+                          (* (% render-index
+                                10)
+                             aspect-ratio)))
+                (height (- canvas-height
+                           (% render-index
+                              10))))
+            (loop while
+                  (and (> width 3)
+                       (> height 3))
+                  do
+                  (zone-tunnels--draw-rect canvas-width
+                                           canvas-height
+                                           width
+                                           height)
+                  (setq width (- width
+                                 (* 10
+                                    aspect-ratio)))
+                  (setq height (- height
+                                  10))))
+          (sit-for 0.1)
+          (erase-buffer)
+          (setq render-index
+                (+ render-index
+                   8)))))))
 
 ;;;###autoload
 (defun zone-tunnels ()
